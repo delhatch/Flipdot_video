@@ -1,0 +1,53 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dC:/Users/Del/OneDrive/fpga/altera/coding_style_test
+vMod_counter
+!s110 1513636947
+!i10b 1
+!s100 YQf>]83Q?5:ajSTaRHMD>2
+ID3FJYgV0Q3;ez4FOYA0I53
+Z0 VDg1SIo80bB@j0V0VzS_@n1
+Z1 dC:/Users/Del/OneDrive/fpga/altera/Flipdot_video
+w1513636943
+8C:\Users\Del\OneDrive\fpga\altera\Flipdot_video\counter_test.v
+FC:\Users\Del\OneDrive\fpga\altera\Flipdot_video\counter_test.v
+L0 2
+Z2 OV;L;10.5b;63
+r1
+!s85 0
+31
+!s108 1513636947.000000
+!s107 C:\Users\Del\OneDrive\fpga\altera\Flipdot_video\counter_test.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:\Users\Del\OneDrive\fpga\altera\Flipdot_video\counter_test.v|
+!i113 1
+Z3 o-work work
+Z4 tCvgOpt 0
+n@mod_counter
+vserial_stream_gen
+!s110 1513627129
+!i10b 1
+!s100 KejGYPSVQUDX4Z]DkcFo42
+IQzQh1>;zheBOQY0cKaT[d1
+R0
+R1
+w1513627116
+8C:/Users/Del/OneDrive/fpga/altera/Flipdot_video/serial_stream_gen.v
+FC:/Users/Del/OneDrive/fpga/altera/Flipdot_video/serial_stream_gen.v
+L0 1
+R2
+r1
+!s85 0
+31
+!s108 1513627129.000000
+!s107 C:/Users/Del/OneDrive/fpga/altera/Flipdot_video/serial_stream_gen.v|
+!s90 -reportprogress|300|-work|work|-stats=none|C:/Users/Del/OneDrive/fpga/altera/Flipdot_video/serial_stream_gen.v|
+!i113 1
+R3
+R4

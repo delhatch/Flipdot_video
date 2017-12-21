@@ -1,0 +1,14 @@
+Analysis & Synthesis Status : Successful - Wed Dec 20 16:26:48 2017
+Quartus Prime Version : 17.1.0 Build 590 10/25/2017 SJ Lite Edition
+Revision Name : DE2_115_D8M_RTL
+Top-level Entity Name : Flipdot_video
+Family : Cyclone IV E
+Total logic elements : 7,915
+    Total combinational functions : 7,247
+    Dedicated logic registers : 3,822
+Total registers : 3822
+Total pins : 238
+Total virtual pins : 0
+Total memory bits : 428,064
+Embedded Multiplier 9-bit elements : 0
+Total PLLs : 3

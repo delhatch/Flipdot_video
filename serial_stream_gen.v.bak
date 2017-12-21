@@ -1,0 +1,117 @@
+module serial_stream_gen (
+   input ball_clock,
+   input reset,
+   input h_sync,
+   input v_sync,
+   input [9:0] h_value,   // row and column of the current video pixel
+   input [8:0] v_value,
+   input seems_white,
+   //
+   output reg txd   
+);
+
+localparam [2:0] WAIT4VS_HIGH = 0, WAIT2_START = 1, XFER = 2, PREP_NEXT_ROW1 = 3, PREP_NEXT_ROW2 = 4, WAIT4VS_LOW = 5;
+
+reg [10:0] flip_addr;  // Address pointer into flipdot ram dual-port buffer.
+reg [6:0] a[0:233];   // This holds the (4 rows x 56 col's) of 7-bit bytes that will be read by the UART, and sent to the flipdot display.
+reg [2:0] state, next;
+reg [7:0] wr_row;
+reg [4:0] row;
+reg [5:0] col;
+reg [7:0] a_col;   // Index into the array of a[] bytes that will be read by the UART.
+reg [10:0] rd_addr;   // Linear counter addresses for reading the data in the dot_ram. 0 to (56x24 -1 = 1343). 1344 pixels.
+
+wire dot_ram_ce;       // High when VGA video is in the flipdot display region.
+
+// Create a 28 (tall) x 56 pixel (wide) buffer. This holds the 1-bit data heading to the flipdot display.
+/*
+dot_ram my_dot_ram(
+	.wrclock( ball_clock ),
+   .wren( dot_ram_ce ),
+	.data( seems_white ),
+	.wraddress( flip_addr ),
+	.rdaddress( rd_addr ),
+	.rdclock( ball_clock ),
+	.rden( dot_ram_ce ),
+	.q( my_dot_ram_q )
+);
+*/
+// Now read out the 1-bit pixel values, form them into a 7-bit value that corresponds to flipdot columns,
+//    and write the data into the "a" registers. The "a" registers will be read out by
+//    the UART.
+always @ (posedge ball_clock or posedge reset )
+   if( reset )
+      state <= WAIT4VS_LOW;
+   else
+      state <= next;
+
+always @* begin
+   next = WAIT4VS_LOW;
+   case( state )
+      WAIT4VS_HIGH   : if( v_sync == 1'b0 ) next = WAIT4VS_HIGH;
+                       else next = WAIT2_START;
+      WAIT2_START    : if( dot_ram_ce == 1'b0 ) next = WAIT2_START;
+                       else next = XFER;
+      XFER           : if( dot_ram_ce == 1'b1 ) next = XFER;
+                       else next = PREP_NEXT_ROW1;
+      PREP_NEXT_ROW1 : next = PREP_NEXT_ROW2;
+      PREP_NEXT_ROW2 : if( wr_row == 5 ) next = WAIT4VS_LOW;      // done transferring the data from 2-port RAM to registers.
+                       else if( dot_ram_ce == 1'b0 ) next = PREP_NEXT_ROW2;
+                       else next = XFER;
+      WAIT4VS_LOW    : if( v_sync == 1'b1 ) next = WAIT4VS_LOW;
+                       else next = WAIT4VS_HIGH;
+    endcase
+end
+      
+always @ (posedge ball_clock or posedge reset )
+   if( reset ) begin
+      row <= 0;
+      col <= 0;
+      wr_row <= 0;
+      a_col <= 0;
+      rd_addr <= 0;
+      end
+   else
+      case( next )
+         WAIT4VS_HIGH   : begin   // state 0
+                             row <= 0;
+                             col <= 0;
+                          end
+         WAIT2_START    : begin    // state 1
+                             row <= 0;
+                             col <= 0;
+                             rd_addr <= (row * 56) + col;
+                             wr_row <= 0;
+                             a_col <= wr_row + col;
+                          end
+         XFER           : begin    // state 2
+                             //a[a_col][row] <= my_dot_ram_q;  // Here is where the data transfer happens.
+                             col <= col + 1;
+                             rd_addr <= rd_addr + 1;
+                             a_col <= wr_row + col + 1;
+                          end
+         PREP_NEXT_ROW1 : begin    // state 3
+                             row <= row + 1;
+                             col <= 0;
+                             if( (row==6) || (row==13) || (row==20) ) wr_row <= wr_row + ;  // Increments after every 7 rows of dot_ram row.
+                          end
+         PREP_NEXT_ROW2 : begin    // state 4
+                             rd_addr <= (row * 56) + col;
+                          end
+      endcase
+// end of creating the state machine outputs.
+
+// This signal is high when the incoming video pixel is located within the flipdot pixel region.
+assign dot_ram_ce = (h_value >= 292) && (h_value <= 347) && (v_value >= 226) && (v_value <= 253);
+
+// This generates the write address for writing the pixel value (1 or 0) INTO the dual port RAM.
+always @ (posedge ball_clock or negedge v_sync )
+   if( ~v_sync ) begin
+      flip_addr <= 0;
+      end
+   else begin
+      if( dot_ram_ce ) flip_addr <= flip_addr + 1;
+      end
+// end of generating the write addresses.
+
+endmodule

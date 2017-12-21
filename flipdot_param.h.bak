@@ -1,0 +1,14 @@
+//flipdot_constants.vh
+
+// If file has not been included previously, the symbol _flipdot_constants_vh_ is not defined.
+
+`ifndef _flipdot_constants_vh_
+   `define _flipdot_constants_vh_
+
+   // The scaling ratio. 1 = 1:1.  2 = 1:2 (sample every other video pixel.
+   `define RATIO 2
+   // Number of bits in engine address bus.
+   `define E_ADDR_WIDTH 4
+   `define MAX_ITERATIONS 255  // Do not exceed 65535. Counting happens in engine.ItrCounter[15:0].
+`endif
+
