@@ -45,7 +45,8 @@ red_frame u1 (
    .x_cont( h_value ),
    .y_cont( v_value ),
    .white_pixel( seems_white ),  // This is the output of "red_frame.v". Low-pass filtered bright/white pixel determination.
-   .filter_on( SW[15] )
+   .filter_on( SW[15] ),
+   .SW( SW )
    //.EX_IO( EX_IO )
 );
 

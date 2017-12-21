@@ -10,8 +10,9 @@ module red_frame (
    input h_sync,
    input v_sync,
    output reg white_pixel,
-   input filter_on
+   input filter_on,
    //output [6:0] EX_IO   // De-bug signals out to pins
+   input [17:0] SW
 );
 
 localparam START_UP = 0, WAIT = 1, IS_RED = 2;
@@ -60,7 +61,9 @@ red_line_buffer u1 (
    // The tap outputs are the column of 3 pixels above the current camera pixel location.
    .tap_top( tap_top ),
    .tap_middle( tap_middle ),
-   .tap_bottom( tap_bottom )
+   .tap_bottom( tap_bottom ),
+   //
+   .SW( SW )
 );
 
 //assign EX_IO[0] = v_sync;

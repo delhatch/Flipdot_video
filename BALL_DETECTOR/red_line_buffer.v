@@ -10,7 +10,8 @@ module red_line_buffer (
    // The taps are the column of 3 pixels above the current camera pixel location.
    output reg tap_top,
    output reg tap_middle,
-   output reg tap_bottom
+   output reg tap_bottom,
+   input [17:0] SW
 );
 
 localparam NUM_BUFFERS = 4;  // number of line buffers.
@@ -23,7 +24,7 @@ wire [7:0] GREEN;
 wire [7:0] BLUE;
 wire [7:0] Y;
 wire [12:0] Y_R, Y_G, Y_B;
-reg seems_white;
+wire seems_white;
 
 wire T0, T1, T2, T3;
 
@@ -33,15 +34,13 @@ assign BLUE = pixel[7:0];
 
 // Decide binary white or black pixel. Put a '1' in the line buffer if this pixel seems white enough.
 // Use standard RGB -> YUV conversion technique. So calculate brightness level as: Y = 0.299R + 0.587G + 0.114B
-//     = (9R + 19G + 4B) >> 5.  (I used 32 bit fractional words for the fractions)
+//     = (9R + 19G + 4B) >> 5.  (I used 4-bit fractional words for the fractional multiplication.)
 assign Y_R = RED * 9;
 assign Y_G = GREEN * 19;
 assign Y_B = BLUE * 4;
 assign Y = (Y_R >> 5) + (Y_G >> 5) + (Y_B >> 5);  // FYI, is guaranteed to not overflow.
 
-always @ (*) begin
-   if( Y > 100 ) seems_white = 1'b1; else seems_white = 1'b0;  // May need to play with threshold to get 50% white pixels, 50% black.
-   end
+assign seems_white = ( Y > SW[11:4] ) ? 1'b1 : 1'b0;
 
 // WR is a pointer to the line buffer that is currently being filled.
 always @ (posedge h_sync) begin
