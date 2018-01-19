@@ -22,6 +22,8 @@ c) Simulataneously with that, I down-samples the resolution (to the value define
 
 d) The final step is to have a (custom) UART read the flip-dot frame buffer and transmit the image to the flip-dot display at 19200 baud.
 
+![image](https://github.com/delhatch/Flipdot_video/blob/master/flipdot_display.JPG)
+
 *** Possible Improvements ***
 
 1) Auto-exposure control on the source video (to account for changing light conditions).
