@@ -2,6 +2,8 @@
 
 This project interfaces with a D8M camera module, processes the image, and streams it to a flip-dot display.
 
+A "flip-dot" display is made up of mechanical disks that flip back-and-forth to show white or black. They were popular as signs on buses, and at train stations. Each mechanical pixels reacts surprisingly fast. See the Demo_video2 link below to see it in operation.
+
 ![Demo_video1](https://github.com/delhatch/Flipdot_video/blob/master/flipdot_display_hardware.mp4)
 
 If the link below does not work, download the demo video file from: https://github.com/delhatch/Flipdot_video/blob/master/flipdot_display_demo.mp4
