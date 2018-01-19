@@ -4,6 +4,8 @@ This project interfaces with a D8M camera module, processes the image, and strea
 
 ![Demo_video1](https://github.com/delhatch/Flipdot_video/blob/master/flipdot_display_hardware.mp4)
 
+If the link below does not work, download the demo video file from: https://github.com/delhatch/Flipdot_video/blob/master/flipdot_display_demo.mp4
+
 ![Demo_video2](https://github.com/delhatch/Flipdot_video/blob/master/flipdot_display_demo.mp4)
 
 The incoming camera video (at 60 fps) is de-Bayered, a threshold is applied (black/white pixel), low-pass filtered, down-sampled, and then sent at 19,200 baud to a flip-dot display.
