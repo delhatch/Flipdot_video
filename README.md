@@ -28,4 +28,4 @@ d) The final step is to have a (custom) UART read the flip-dot frame buffer and 
 
 1) Auto-exposure control on the source video (to account for changing light conditions).
 
-2) Temporally filter the pixels so that the flip-dot display does not pixels flipping back-and-forth when there is no camera motion.
+2) Temporally filter the pixels, or apply hysteresis, so that the flip-dot display does not flip pixels back-and-forth when there is no image motion (for pixels at the threshold of black/white).
